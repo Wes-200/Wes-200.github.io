@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wessam Mandour — AI Automation Engineer & Technical Writer</title>
+<meta name="description" content="Case study: an end-to-end AI recruiting automation platform. Multi-stage LLM matching pipeline, comms automation across 14 services, and the documentation that ships with it." />
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel-2:#1c2330; --line:#2a3240;
+    --ink:#e6edf3; --muted:#9aa7b4; --soft:#7d8896;
+    --accent:#5eead4; --accent-2:#7c9eff; --warn:#f0b86e;
+    --max:1080px; --r:14px;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    line-height:1.65;-webkit-font-smoothing:antialiased;font-size:17px}
+  a{color:var(--accent-2);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 22px}
+  h1,h2,h3{line-height:1.25;letter-spacing:-0.01em}
+  h2{font-size:1.7rem;margin:0 0 6px}
+  h3{font-size:1.15rem;margin:0 0 6px}
+  .eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+  .muted{color:var(--muted)}
+  section{padding:64px 0;border-top:1px solid var(--line)}
+  section:first-of-type{border-top:none}
+
+  /* ---------- nav ---------- */
+  nav{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.82);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+  nav .brand{font-family:var(--mono);font-weight:600;color:var(--ink);font-size:.92rem}
+  nav .links{display:flex;gap:22px;font-size:.9rem}
+  nav .links a{color:var(--muted)}
+  nav .links a:hover{color:var(--ink);text-decoration:none}
+  @media(max-width:680px){nav .links{display:none}}
+
+  /* ---------- hero ---------- */
+  .hero{padding:74px 0 60px}
+  .hero h1{font-size:2.9rem;margin:0 0 16px;letter-spacing:-0.02em}
+  .hero .lead{font-size:1.22rem;color:var(--muted);max-width:680px;margin:0 0 26px}
+  .hero .lead b{color:var(--ink);font-weight:600}
+  .roles{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+  .pill{font-family:var(--mono);font-size:.8rem;padding:6px 12px;border:1px solid var(--line);
+    border-radius:999px;color:var(--accent);background:var(--panel)}
+  .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:11px 20px;border-radius:10px;font-weight:600;font-size:.95rem}
+  .btn.primary{background:var(--accent);color:#06231f}
+  .btn.primary:hover{filter:brightness(1.08);text-decoration:none}
+  .btn.ghost{border:1px solid var(--line);color:var(--ink);background:var(--panel)}
+  .btn.ghost:hover{border-color:var(--accent);text-decoration:none}
+
+  /* ---------- metrics ---------- */
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:8px}
+  @media(max-width:760px){.metrics{grid-template-columns:repeat(2,1fr)}}
+  .metric{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+  .metric .n{font-size:1.9rem;font-weight:700;color:var(--accent);letter-spacing:-.02em}
+  .metric .l{font-size:.82rem;color:var(--muted);margin-top:2px}
+  .fillme{outline:1px dashed var(--warn);outline-offset:3px;border-radius:4px}
+
+  /* ---------- generic cards ---------- */
+  .grid{display:grid;gap:16px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:760px){.g2,.g3{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px}
+  .card h3{display:flex;align-items:center;gap:9px}
+  .card .ico{color:var(--accent);font-family:var(--mono);font-size:.95rem}
+  .card p{margin:8px 0 0;color:var(--muted);font-size:.96rem}
+
+  /* ---------- pipeline ---------- */
+  .stage{display:flex;gap:18px;padding:18px 0;border-top:1px solid var(--line)}
+  .stage:first-child{border-top:none}
+  .stage .num{flex:0 0 auto;width:46px;height:46px;border-radius:10px;background:var(--panel-2);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-weight:700;color:var(--accent)}
+  .stage .body h3{margin-bottom:3px}
+  .stage .body p{margin:0;color:var(--muted);font-size:.96rem}
+  .stage .body .tag{font-family:var(--mono);font-size:.74rem;color:var(--soft)}
+
+  /* ---------- callout ---------- */
+  .callout{background:var(--panel-2);border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:10px;padding:16px 20px;color:var(--muted);font-size:.95rem}
+  .callout.warn{border-left-color:var(--warn)}
+
+  /* ---------- code ---------- */
+  pre{background:#0a0e14;border:1px solid var(--line);border-radius:12px;padding:18px;
+    overflow:auto;font-family:var(--mono);font-size:.84rem;line-height:1.6;color:#cdd6e0}
+  code{font-family:var(--mono);font-size:.9em;background:var(--panel-2);
+    padding:.12em .4em;border-radius:5px;color:var(--accent)}
+  pre code{background:none;padding:0;color:inherit}
+  .c-key{color:#7c9eff}.c-str{color:#9ece6a}.c-com{color:#5c6773}.c-fn{color:#e0af68}
+
+  /* ---------- stack ---------- */
+  .stack{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{font-family:var(--mono);font-size:.82rem;padding:7px 13px;border:1px solid var(--line);
+    border-radius:8px;background:var(--panel);color:var(--ink)}
+  .chip span{color:var(--soft)}
+
+  /* ---------- diagram ---------- */
+  .diagram{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:8px}
+  .diagram svg{display:block;width:100%;height:auto}
+
+  footer{border-top:1px solid var(--line);padding:46px 0;color:var(--muted);font-size:.92rem}
+  footer a{color:var(--ink)}
+  .lede{font-size:1.08rem;color:var(--muted);max-width:760px}
+  ul.clean{margin:14px 0 0;padding-left:20px;color:var(--muted)}
+  ul.clean li{margin:6px 0}
+  ul.clean b{color:var(--ink);font-weight:600}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <span class="brand">WM</span>
+    <div class="links">
+      <a href="#system">System</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#pipeline">Matching Engine</a>
+      <a href="#engineering">Engineering</a>
+      <a href="#writing">Writing</a>
+      <a href="#stack">Stack</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">AI Automation Engineering &amp; Technical Writing</p>
+    <h1>Wessam Mandour</h1>
+    <p class="lead">I <b>architect, build, and ship</b> production automation systems from scratch — then document them well enough to run unattended. This is a case study of an end-to-end <b>AI recruiting platform</b> I designed and built solo: a multi-stage LLM matching engine and a communications pipeline running across 14 deployed services.</p>
+    <div class="roles">
+      <span class="pill">AI Automation Engineer</span>
+      <span class="pill">Senior Technical Writer</span>
+      <span class="pill">LLM Systems · End-to-End</span>
+    </div>
+    <div class="cta">
+      <a class="btn primary" href="#system">Read the case study ↓</a>
+      <a class="btn ghost" href="case-study.md">Long-form write-up</a>
+      <a class="btn ghost" href="#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ SYSTEM OVERVIEW ============ -->
+<section id="system">
+  <div class="wrap">
+    <p class="eyebrow">The System</p>
+    <h2>An AI recruiting automation platform</h2>
+    <p class="lede">A job opening enters as a form submission. From there, the platform runs the entire top-of-funnel with no manual steps: it sources and contacts candidates, ingests and scores their screening interviews, parses their CVs, and matches them to the role with an LLM — writing back a ranked, <i>explained</i> shortlist for the recruiting team. Two systems do the work.</p>
+
+    <div class="grid g2" style="margin-top:26px">
+      <div class="card">
+        <h3><span class="ico">◆</span> Matching Engine</h3>
+        <p><b style="color:var(--ink)">Python · FastAPI · ~3,900 LoC.</b> A webhook-driven service that turns a free-text job description into a structured rubric, then scores and ranks a candidate pool through a six-stage funnel ending in an LLM judgment with a written rationale per candidate.</p>
+      </div>
+      <div class="card">
+        <h3><span class="ico">◆</span> Candidate Flow</h3>
+        <p><b style="color:var(--ink)">Node · Express · 14 deployed services.</b> The communications and data pipeline around the engine: batched email and WhatsApp outreach, interview-transcript ingestion and scoring, and CV parsing — each automation isolated as its own service.</p>
+      </div>
+    </div>
+
+    <div class="metrics" style="margin-top:22px">
+      <div class="metric"><div class="n fillme">14</div><div class="l">independently deployed services</div></div>
+      <div class="metric"><div class="n fillme">6</div><div class="l">stage matching funnel</div></div>
+      <div class="metric"><div class="n fillme">100s</div><div class="l">of candidates scored per run</div></div>
+      <div class="metric"><div class="n fillme">~hrs→min</div><div class="l">manual shortlisting eliminated</div></div>
+    </div>
+    <p class="callout warn" style="margin-top:16px">⚑ <b>For you, Wessam:</b> the four numbers above are dashed-outlined placeholders. Swap them for your real figures (candidates/week, hours saved, time-to-shortlist, recruiter headcount supported). Honest, specific numbers are what make a non-technical hiring manager remember you.</p>
+  </div>
+</section>
+
+<!-- ============ ARCHITECTURE ============ -->
+<section id="architecture">
+  <div class="wrap">
+    <p class="eyebrow">Architecture</p>
+    <h2>How data moves through the platform</h2>
+    <p class="lede">Everything is event-driven off the recruiting team's workspace. A change to a record fires a webhook; the right service picks it up, does one job well, and writes the result back. No shared database to corrupt, no monolith to coordinate.</p>
+
+    <div class="diagram" style="margin-top:24px">
+      <svg viewBox="0 0 980 470" role="img" aria-label="System architecture diagram">
+        <defs>
+          <marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+            <path d="M0,0 L7,3 L0,6 Z" fill="#5eead4"/>
+          </marker>
+          <style>
+            .b{fill:#161b22;stroke:#2a3240;rx:10}
+            .ba{fill:#1c2330;stroke:#5eead4}
+            .t{fill:#e6edf3;font-family:var(--sans);font-size:14px;font-weight:600}
+            .s{fill:#9aa7b4;font-family:var(--sans);font-size:11px}
+            .m{fill:#7d8896;font-family:ui-monospace,monospace;font-size:10px}
+            .ln{stroke:#3a4456;stroke-width:1.6;fill:none}
+            .lh{stroke:#5eead4;stroke-width:1.8;fill:none}
+            .lbl{fill:#5eead4;font-family:ui-monospace,monospace;font-size:10px}
+          </style>
+        </defs>
+
+        <!-- Source -->
+        <rect class="b ba" x="20" y="190" width="170" height="86" rx="10"/>
+        <text class="t" x="105" y="222" text-anchor="middle">Notion Workspace</text>
+        <text class="s" x="105" y="242" text-anchor="middle">intake · candidates · roles</text>
+        <text class="m" x="105" y="260" text-anchor="middle">webhook source of truth</text>
+
+        <!-- webhook bus -->
+        <path class="lh" d="M190,233 H250" marker-end="url(#arr)"/>
+        <text class="lbl" x="218" y="225" text-anchor="middle">webhook</text>
+
+        <!-- Candidate Flow cluster -->
+        <rect class="b" x="255" y="40" width="350" height="180" rx="12" fill="#12161d"/>
+        <text class="m" x="270" y="62" fill="#5eead4">CANDIDATE FLOW · Node/Express · 14 svc</text>
+        <rect class="b" x="270" y="74" width="150" height="40"/><text class="t" x="345" y="99" text-anchor="middle" font-size="12">Email / WhatsApp</text>
+        <rect class="b" x="438" y="74" width="150" height="40"/><text class="t" x="513" y="99" text-anchor="middle" font-size="12">CV Parser</text>
+        <rect class="b" x="270" y="124" width="150" height="40"/><text class="t" x="345" y="149" text-anchor="middle" font-size="12">Transcript Ingest</text>
+        <rect class="b" x="438" y="124" width="150" height="40"/><text class="t" x="513" y="149" text-anchor="middle" font-size="12">Transcript Scoring</text>
+        <text class="s" x="270" y="190" >Postmark · Twilio · Hireflix · Fireflies</text>
+
+        <!-- Matching cluster -->
+        <rect class="b" x="255" y="250" width="350" height="180" rx="12" fill="#12161d"/>
+        <text class="m" x="270" y="272" fill="#5eead4">MATCHING ENGINE · Python/FastAPI</text>
+        <rect class="b" x="270" y="284" width="318" height="40"/><text class="t" x="429" y="309" text-anchor="middle" font-size="12">Job queue → 6-stage funnel</text>
+        <rect class="b" x="270" y="332" width="150" height="40"/><text class="t" x="345" y="357" text-anchor="middle" font-size="12">Rubric (LLM)</text>
+        <rect class="b" x="438" y="332" width="150" height="40"/><text class="t" x="513" y="357" text-anchor="middle" font-size="12">Score (LLM)</text>
+        <text class="s" x="270" y="400">sequential · rate-limited · retry/backoff</text>
+
+        <!-- bus to clusters -->
+        <path class="ln" d="M250,233 C250,130 250,130 255,130" marker-end="url(#arr)"/>
+        <path class="ln" d="M250,233 C250,340 250,340 255,340" marker-end="url(#arr)"/>
+
+        <!-- LLM -->
+        <rect class="b ba" x="670" y="332" width="160" height="74" rx="10"/>
+        <text class="t" x="750" y="362" text-anchor="middle">LLM</text>
+        <text class="s" x="750" y="382" text-anchor="middle">DeepSeek · scoring</text>
+        <path class="lh" d="M605,360 H670" marker-end="url(#arr)"/>
+        <path class="lh" d="M670,378 H605" marker-end="url(#arr)" />
+        <text class="lbl" x="637" y="350" text-anchor="middle">JSON</text>
+
+        <!-- write back -->
+        <path class="lh" d="M605,130 C720,130 870,130 870,300 C870,360 760,233 250,233" marker-end="url(#arr)" opacity="0.0"/>
+        <rect class="b ba" x="845" y="60" width="115" height="120" rx="10"/>
+        <text class="t" x="902" y="110" text-anchor="middle" font-size="13">Ranked</text>
+        <text class="t" x="902" y="128" text-anchor="middle" font-size="13">Shortlist</text>
+        <text class="s" x="902" y="148" text-anchor="middle">+ rationale</text>
+        <path class="lh" d="M605,110 H845" marker-end="url(#arr)"/>
+        <text class="lbl" x="725" y="100" text-anchor="middle">write back → Notion</text>
+        <path class="ln" d="M902,180 C902,440 130,460 105,276" marker-end="url(#arr)" stroke-dasharray="4 4"/>
+      </svg>
+    </div>
+    <p class="muted" style="font-size:.86rem;margin-top:10px">Every box is an isolated, independently deployable service. Failure in one (e.g. WhatsApp) cannot block another (e.g. matching). The workspace is the single source of truth; services are stateless and idempotent.</p>
+  </div>
+</section>
+
+<!-- ============ PIPELINE ============ -->
+<section id="pipeline">
+  <div class="wrap">
+    <p class="eyebrow">Deep Dive · The Matching Engine</p>
+    <h2>Six stages from job description to ranked shortlist</h2>
+    <p class="lede">The hard problem isn't calling an LLM — it's calling it <i>responsibly</i> on a large pool: cheaply, in priority order, with explainable output, and without melting API quotas. Each stage narrows the pool before the next, expensive stage runs.</p>
+
+    <div style="margin-top:22px">
+      <div class="stage"><div class="num">1</div><div class="body">
+        <h3>Rubric extraction <span class="tag">— LLM</span></h3>
+        <p>A free-text job description becomes a structured rubric: hard gates, core vs. preferred requirements, search keywords, and allowed locations. This turns fuzzy hiring intent into something the rest of the pipeline can filter and score against deterministically.</p>
+      </div></div>
+      <div class="stage"><div class="num">2</div><div class="body">
+        <h3>Keyword pool reduction <span class="tag">— cheap filter</span></h3>
+        <p>A fast, local keyword-overlap pass drops candidates with no plausible signal <i>before</i> any paid LLM call. This is the single biggest cost-control lever in the system.</p>
+      </div></div>
+      <div class="stage"><div class="num">3</div><div class="body">
+        <h3>Hard eligibility filters <span class="tag">— rules</span></h3>
+        <p>Non-negotiable gates — language, location, minimum screening score — applied as rules. Missing or unexpected data fields are tolerated and logged, never crashed on (see <a href="#engineering">schema-drift defense</a>).</p>
+      </div></div>
+      <div class="stage"><div class="num">4</div><div class="body">
+        <h3>Priority bucketing &amp; ordering <span class="tag">— heuristics</span></h3>
+        <p>Survivors are bucketed by business priority (referrals first, then priority backgrounds) and ordered by the best available baseline score. Higher-value candidates are scored first, so a capped run still spends budget on the right people.</p>
+      </div></div>
+      <div class="stage"><div class="num">5</div><div class="body">
+        <h3>LLM scoring <span class="tag">— concurrency-limited · retried</span></h3>
+        <p>Each candidate gets a 0–100 score <b>and a written rationale</b> from the LLM, under a global concurrency cap. Transport errors, empty completions, and invalid JSON are retried; a single candidate's failure is isolated and skipped rather than killing the run.</p>
+      </div></div>
+      <div class="stage"><div class="num">6</div><div class="body">
+        <h3>Qualification &amp; backfill <span class="tag">— targeting</span></h3>
+        <p>Candidates above threshold are linked first. If the qualified pool is short of the run's target, the engine backfills with the highest-scoring below-threshold candidates — so the team always gets a usable shortlist, and the fallback is logged transparently.</p>
+      </div></div>
+    </div>
+
+    <h3 style="margin-top:34px">Why the output is trustworthy</h3>
+    <pre><code><span class="c-com"># Every match carries its own justification, not just a number.</span>
+{
+  <span class="c-str">"match_score"</span>: <span class="c-key">82</span>,
+  <span class="c-str">"rationale"</span>: <span class="c-str">"Meets all core requirements; 6y in the required</span>
+                <span class="c-str">domain and the preferred certification. Gap: no</span>
+                <span class="c-str">direct team-lead experience (preferred, not gating)."</span>
+}</code></pre>
+    <p class="muted" style="font-size:.9rem;margin-top:8px">A recruiter can read <i>why</i> a candidate ranked where they did — the difference between an automation people trust and a black box they override.</p>
+  </div>
+</section>
+
+<!-- ============ ENGINEERING ============ -->
+<section id="engineering">
+  <div class="wrap">
+    <p class="eyebrow">Engineering</p>
+    <h2>The parts that make it production, not a script</h2>
+    <p class="lede">Anyone can wire an API to an LLM. Keeping it correct, affordable, and recoverable while it runs unattended against rate-limited third-party services is the actual job.</p>
+
+    <div class="grid g2" style="margin-top:24px">
+      <div class="card"><h3><span class="ico">↻</span> Idempotent re-runs</h3>
+        <p>Already-scored records are excluded from future runs. The same job can fire twice — from a retry, a duplicate webhook, or a manual re-trigger — without double-contacting candidates or duplicating matches.</p></div>
+      <div class="card"><h3><span class="ico">⏱</span> Rate limiting &amp; queueing</h3>
+        <p>Jobs run through a sequential queue with a concurrency cap and inter-write delays, deliberately staying under Notion and LLM quotas instead of hammering them and getting throttled.</p></div>
+      <div class="card"><h3><span class="ico">⤾</span> Retry &amp; graceful degradation</h3>
+        <p>Exponential backoff on transient failures; empty-response and invalid-JSON hardening on LLM calls. Individual failures are skipped — the job only fails if <i>zero</i> usable results were produced.</p></div>
+      <div class="card"><h3><span class="ico">⛨</span> Schema-drift defense</h3>
+        <p>Third-party schemas change without warning. Missing properties are ignored, unexpected types are logged and skipped, and eligibility is re-checked after caching — so a workspace edit can't silently corrupt a run.</p></div>
+      <div class="card"><h3><span class="ico">$</span> Cost control by design</h3>
+        <p>Cheap filters run before expensive ones, candidate caps bound spend, and a TTL cache reuses candidate pools across runs. The LLM only ever sees the candidates worth paying to score.</p></div>
+      <div class="card"><h3><span class="ico">⌗</span> Observability</h3>
+        <p>Structured logs trace every record by page id, email, stage, and skip reason — so "why wasn't this candidate matched?" is answerable from logs alone, without a debugger.</p></div>
+    </div>
+
+    <div class="callout" style="margin-top:22px">⚙︎ <b>Multi-tenant by deployment.</b> Each workflow is its own Git branch deployed as its own service — so a client with a different data schema or matching rule gets a tailored deployment without forking the codebase or risking the others. Configuration lives entirely in environment variables; no code change ships a new tenant.</div>
+  </div>
+</section>
+
+<!-- ============ WRITING ============ -->
+<section id="writing">
+  <div class="wrap">
+    <p class="eyebrow">Technical Writing</p>
+    <h2>The documentation is part of the deliverable</h2>
+    <p class="lede">Every service ships with an operational handbook: what each branch does, every environment variable, the exact eligibility rules, the log lines to grep, and a troubleshooting guide written for whoever is on call at 2am — including future me. For an automation system that runs unattended, the docs <i>are</i> the reliability layer.</p>
+
+    <div class="grid g3" style="margin-top:22px">
+      <div class="card"><h3>Audience-layered</h3><p>Each handbook opens with a one-table overview a manager can read, then drills into branch-level specifics an engineer needs. Same document, two reading depths.</p></div>
+      <div class="card"><h3>Operational, not decorative</h3><p>Documented exactly which log line proves which behavior, so debugging is "grep this string," not "read the source."</p></div>
+      <div class="card"><h3>Failure-first</h3><p>A troubleshooting section maps real symptoms ("candidate wasn't matched") to the precise gate that excluded them.</p></div>
+    </div>
+
+    <h3 style="margin-top:30px">Excerpt — a troubleshooting entry (sanitized)</h3>
+    <pre><code><span class="c-com">## Troubleshooting</span>
+
+<span class="c-fn">- Candidate not considered for a role:</span> check, in order —
+  1. Stage-2 keyword overlap (did any role keyword match the profile?)
+  2. Stage-3 hard filters (language, location, minimum score)
+  3. existing scored row (already processed in a prior run)
+  4. duplicate-email de-duplication
+
+<span class="c-fn">- Fewer qualified matches than the run target:</span> expected.
+  Stage 6 backfills below-threshold candidates by descending score
+  and logs <span class="c-str">`fallback_selected_below_threshold=true`</span> on each.</code></pre>
+    <p style="margin-top:14px"><a class="btn ghost" href="case-study.md">Read the full long-form case study →</a></p>
+  </div>
+</section>
+
+<!-- ============ STACK ============ -->
+<section id="stack">
+  <div class="wrap">
+    <p class="eyebrow">Stack</p>
+    <h2>Tools used</h2>
+    <div class="stack" style="margin-top:18px">
+      <span class="chip">Python <span>· FastAPI · HTTPX</span></span>
+      <span class="chip">Node.js <span>· Express</span></span>
+      <span class="chip">DeepSeek <span>· LLM</span></span>
+      <span class="chip">Notion API</span>
+      <span class="chip">Postmark <span>· email</span></span>
+      <span class="chip">Twilio <span>· WhatsApp</span></span>
+      <span class="chip">Hireflix · Fireflies <span>· transcripts</span></span>
+      <span class="chip">Railway <span>· deploy</span></span>
+      <span class="chip">Webhooks <span>· event-driven</span></span>
+      <span class="chip">Git <span>· branch-per-tenant</span></span>
+    </div>
+    <ul class="clean" style="margin-top:24px">
+      <li><b>Automation Specialist signal:</b> 14 integrated services, event-driven, idempotent, rate-limited, running unattended in production.</li>
+      <li><b>Senior Technical Writer signal:</b> audience-layered operational handbooks, failure-first troubleshooting, and this case study itself.</li>
+      <li><b>AI/LLM signal:</b> a cost-aware, explainable, retried scoring pipeline — not a single API call.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact">
+  <div class="wrap">
+    <p class="eyebrow">Contact</p>
+    <p style="font-size:1.05rem;color:var(--ink);margin:0 0 6px"><b>Wessam Mandour</b> — AI Automation Engineer &amp; Technical Writer</p>
+    <p class="muted" style="margin:0 0 16px">
+      <a href="mailto:wessam.mandour94@gmail.com">wessam.mandour94@gmail.com</a> &nbsp;·&nbsp;
+      <a href="https://www.linkedin.com/in/wessam-mandour/">LinkedIn</a> &nbsp;·&nbsp;
+      <a href="https://github.com/Wessam-Mandour">GitHub</a>
+    </p>
+    <p class="muted" style="font-size:.82rem">All client names, database identifiers, and proprietary data have been removed. Architecture and engineering practices are described generically. Code excerpts are illustrative reconstructions, not production source.</p>
+  </div>
+</footer>
+
+</body>
+</html>
