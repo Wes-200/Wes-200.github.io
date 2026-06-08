@@ -1,6 +1,6 @@
 # Building an AI Recruiting Automation Platform
 
-**A case study in automation engineering and operational documentation.**
+**A case study in AI automation and technical documentation.**
 
 > All client names, database identifiers, and proprietary data have been removed. The architecture, engineering decisions, and trade-offs are real; code excerpts are illustrative reconstructions, not production source.
 
@@ -8,14 +8,14 @@
 
 ## TL;DR
 
-I built and operate an end-to-end AI recruiting platform that takes a job opening from an intake form and runs the entire top-of-funnel automatically: candidate outreach, screening-interview ingestion and scoring, CV parsing, and LLM-based role matching, writing a ranked, *explained* shortlist back to the recruiting team's workspace.
+I built and operate an end-to-end AI recruiting platform that takes a job opening from an intake form and runs the entire top-of-funnel automatically: candidate outreach, screening-interview ingestion and scoring, CV parsing, and DeepSeek-based role matching, writing a ranked, *explained* shortlist back to the recruiting team's workspace.
 
 It is two systems:
 
-- **Matching Engine**, Python / FastAPI, ~3,900 lines. A six-stage funnel that turns a free-text job description into a ranked shortlist with a written rationale per candidate.
-- **Candidate Flow**, Node / Express, 14 independently deployed services handling email, WhatsApp, transcript ingestion, transcript scoring, and CV parsing.
+- **Matching Engine**, Python / FastAPI, DeepSeek. A six-stage funnel that turns a free-text job description into a ranked shortlist with a written rationale per candidate. A full run takes 90 to 120 minutes on Railway and posts Slack status updates to the whole team.
+- **Candidate Flow**, Node / Express, 14 independently deployed services. Handles 2,000+ WhatsApp messages and emails a day (Twilio + Postmark), transcript ingestion and scoring, and a CV parser that finishes in under a minute.
 
-The interesting part is not "it uses an LLM." It's that it runs **unattended, in production, against rate-limited third-party APIs**, and stays correct, affordable, and recoverable while doing so.
+The interesting part is not "it uses an LLM." It's the judgment about **when not to**: roughly 90% of the work runs on DeepSeek where reasoning is needed, while parsing, filtering, and routing are handled by regex and deterministic logic so no tokens are wasted. And it all runs **unattended, in production, against rate-limited third-party APIs**, staying correct, affordable, and recoverable while doing so.
 
 ---
 
@@ -79,7 +79,7 @@ Above-threshold candidates are linked first. If the qualified pool falls short o
 
 ---
 
-## Engineering decisions that matter
+## Design decisions that matter
 
 | Concern | Decision | Why |
 |---|---|---|
@@ -128,18 +128,20 @@ Read this two ways, because two audiences care about two different things.
 
 | Metric | Result |
 |---|---|
-| Candidate database scanned per run | **~40,000 rows** |
-| Time for a full run, end to end | **~2 hours, unattended, on Railway** |
-| Manual equivalent | **weeks** of recruiter screening per role, collapsed into one run |
-| Services in production | **14**, all deployed on Railway, triggered by webhooks |
-| Explainability | a **written rationale on every match**, so the shortlist is actionable on sight |
+| Candidate database scanned per matching run | **~40,000 rows** |
+| Time for a full matching run | **90 to 120 minutes** on Railway, depending on settings and Notion API volume |
+| Team visibility | a **Slack status update** at start, progress, and completion, so the whole team sees state |
+| Communications throughput | **2,000+ WhatsApp messages and emails a day** (Twilio + Postmark) |
+| CV parsing | **under a minute** each, regex-first with AI used only where needed |
+| Manual equivalent | **weeks** of manual work, now collapsed into seconds, minutes, or at most a couple of hours |
 
-The headline a non-technical hiring manager remembers: *a single unattended 2-hour run on Railway turns a 40,000-row candidate database into a ranked, explained shortlist, work that is otherwise weeks of manual screening.*
+The headline a non-technical hiring manager remembers: *a single unattended run on Railway turns a 40,000-row candidate database into a ranked, explained shortlist in about two hours, work that is otherwise weeks of manual screening, and the whole team is kept in the loop over Slack.*
 
-**For the engineering team (why those numbers are even possible):**
+**For the technical team (why those numbers are even possible):**
 
-- The 40,000-row scan stays cheap because the funnel runs free filters first and only sends the narrowed pool to the paid LLM.
-- The 2-hour run stays inside third-party quotas through a sequential queue, concurrency caps, and exponential backoff, rather than hammering APIs and getting throttled.
+- **AI only where it earns its keep:** roughly 90% of the work runs on DeepSeek where reasoning is genuinely needed; parsing, filtering, and routing run on regex and deterministic logic, so no tokens are wasted.
+- The 40,000-row scan stays cheap because the funnel runs free filters first and only sends the narrowed pool to DeepSeek.
+- The run stays inside third-party quotas through a sequential queue, concurrency caps, and exponential backoff, rather than hammering APIs and getting throttled.
 - The run is safe to leave unattended because of idempotent re-runs, per-candidate error isolation, and schema-drift defense, so a duplicate webhook or a workspace edit cannot corrupt the output.
 - Everything is event-driven on Railway: a workspace change fires a webhook, the responsible service handles it, and the result is written straight back.
 
@@ -147,11 +149,11 @@ The headline a non-technical hiring manager remembers: *a single unattended 2-ho
 
 ## What this demonstrates
 
-- **Automation engineering**, 14 integrated, event-driven services running unattended in production with idempotency, rate limiting, and graceful degradation.
+- **AI automation**, 14 integrated, event-driven services running unattended in production with idempotency, rate limiting, and graceful degradation.
 - **Technical writing**, audience-layered operational handbooks, failure-first troubleshooting, and this case study.
-- **Applied AI**, a cost-aware, explainable, retried LLM scoring pipeline rather than a single API call.
+- **Cost-aware AI**, DeepSeek reserved for judgment-heavy steps and regex everywhere else, an explainable and retried scoring pipeline rather than a single API call.
 
 ---
 
-*Wessam Mandour, AI Automation Engineer & Technical Writer*
+*Wessam Mandour · AI Automations Expert & Technical Writer*
 *[wessam.mandour94@gmail.com](mailto:wessam.mandour94@gmail.com) · [LinkedIn](https://www.linkedin.com/in/wessam-mandour/) · [GitHub](https://github.com/Wessam-Mandour)*

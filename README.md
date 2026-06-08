@@ -12,5 +12,5 @@ All client names, database identifiers, and proprietary data have been removed; 
 
 ---
 
-**Wessam Mandour**, AI Automation Engineer & Technical Writer
+**Wessam Mandour** · AI Automations Expert & Technical Writer
 [wessam.mandour94@gmail.com](mailto:wessam.mandour94@gmail.com) · [LinkedIn](https://www.linkedin.com/in/wessam-mandour/) · [GitHub](https://github.com/Wessam-Mandour)

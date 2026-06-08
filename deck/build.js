@@ -30,15 +30,15 @@ function pill(s, t, x, y, w){
 
 /* ---------- 1 · TITLE ---------- */
 let s = pptx.addSlide(); bg(s);
-s.addText("CASE STUDY · AUTOMATION ENGINEERING & TECHNICAL WRITING",
+s.addText("CASE STUDY · AI AUTOMATION & TECHNICAL DOCUMENTATION",
   { x:M, y:1.5, w:11, h:0.3, fontFace:MONO, fontSize:12, color:TEAL, charSpacing:2 });
 s.addText("AI Recruiting\nAutomation Platform",
   { x:M, y:2.0, w:11.5, h:2.2, fontFace:H, fontSize:54, bold:true, color:INK, lineSpacingMultiple:0.98 });
-s.addText("An end-to-end LLM matching engine and a 14-service communications pipeline, designed, built, and documented from scratch, running in production.",
-  { x:M, y:4.25, w:10.2, h:0.8, fontFace:BODY, fontSize:18, color:MUTED });
-pill(s, "AI Automation Engineer", M, 5.45, 2.85);
+s.addText("A DeepSeek matching engine and a 14-service communications pipeline, designed and built from scratch, running unattended in production.",
+  { x:M, y:4.25, w:10.4, h:0.8, fontFace:BODY, fontSize:18, color:MUTED });
+pill(s, "AI Automations Expert", M, 5.45, 2.85);
 pill(s, "Senior Technical Writer", M+3.05, 5.45, 2.85);
-pill(s, "LLM Systems · End-to-End", M+6.1, 5.45, 3.0);
+pill(s, "DeepSeek · LLM Workflows", M+6.1, 5.45, 3.0);
 s.addText("Wessam Mandour", { x:M, y:6.5, w:6, h:0.4, fontFace:MONO, fontSize:14, color:INK, bold:true });
 
 /* ---------- 2 · THE PROBLEM ---------- */
@@ -63,22 +63,22 @@ probs.forEach((p,i)=>{
 s = pptx.addSlide(); bg(s);
 eyebrow(s, "The System"); title(s, "Two systems, one automated funnel");
 const sys = [
-  ["◆  Matching Engine", "Python · FastAPI · ~3,900 LoC", "Turns a free-text job description into a ranked shortlist with a written rationale per candidate, through a six-stage funnel."],
-  ["◆  Candidate Flow", "Node · Express · 14 services", "The comms & data pipeline: batched email and WhatsApp outreach, transcript ingestion and scoring, and CV parsing, each isolated."],
+  ["◆  Matching Engine", "Python · FastAPI · DeepSeek", "Ranks candidates with a written rationale each, through a six-stage funnel. A full run takes 90 to 120 min on Railway and posts Slack status to the team."],
+  ["◆  Candidate Flow", "Node · Express · 14 services", "2,000+ WhatsApp messages and emails a day (Twilio + Postmark), transcript scoring, and a CV parser that finishes in under a minute."],
 ];
 sys.forEach((c,i)=>{
   const x = M + i*5.95; card(s, x, 1.9, 5.6, 2.3);
   s.addText(c[0], { x:x+0.35, y:2.15, w:5, h:0.45, fontFace:H, fontSize:21, bold:true, color:INK });
   s.addText(c[1], { x:x+0.35, y:2.68, w:5, h:0.35, fontFace:MONO, fontSize:12.5, color:TEAL });
-  s.addText(c[2], { x:x+0.35, y:3.12, w:5.0, h:1.0, fontFace:BODY, fontSize:14, color:MUTED });
+  s.addText(c[2], { x:x+0.35, y:3.12, w:5.0, h:1.1, fontFace:BODY, fontSize:14, color:MUTED });
 });
-const stats = [["40,000","rows scanned / run"],["~2 hrs","full run on Railway"],["14","services on Railway"],["weeks→hrs","screening per role"]];
+const stats = [["40,000","rows scanned / run"],["90-120 min","matching run on Railway"],["2,000+/day","WhatsApp + email"],["<1 min","CV parsed, regex-first"]];
 stats.forEach((st,i)=>{
   const x = M + i*2.98; card(s, x, 4.5, 2.75, 1.6, PANEL2);
-  s.addText(st[0], { x:x, y:4.72, w:2.75, h:0.7, fontFace:H, fontSize:30, bold:true, color:TEAL, align:"center" });
-  s.addText(st[1], { x:x, y:5.5, w:2.75, h:0.4, fontFace:BODY, fontSize:12.5, color:MUTED, align:"center" });
+  s.addText(st[0], { x:x, y:4.74, w:2.75, h:0.65, fontFace:H, fontSize:26, bold:true, color:TEAL, align:"center" });
+  s.addText(st[1], { x:x, y:5.48, w:2.75, h:0.4, fontFace:BODY, fontSize:12, color:MUTED, align:"center" });
 });
-s.addText("Deployed on Railway, triggered by webhooks, runs unattended.",
+s.addText("Deployed on Railway, triggered by webhooks, runs unattended, with Slack status to the whole team.",
   { x:M, y:6.45, w:11.9, h:0.4, fontFace:BODY, fontSize:13, italic:true, color:SOFT, align:"center" });
 
 /* ---------- 4 · ARCHITECTURE ---------- */
@@ -135,14 +135,14 @@ stages.forEach((st,i)=>{
 
 /* ---------- 6 · ENGINEERING ---------- */
 s = pptx.addSlide(); bg(s);
-eyebrow(s, "Engineering"); title(s, "The parts that make it production, not a script");
+eyebrow(s, "Under the Hood"); title(s, "The parts that make it production, not a script");
 const eng = [
   ["↻","Idempotent re-runs","Scored records skipped on re-run, no double-contact, no duplicate matches."],
   ["⏱","Rate limiting","Sequential queue, concurrency cap, write delays, under quota by design."],
   ["⤾","Graceful degradation","Backoff + JSON hardening; one bad candidate can't sink a 200-candidate run."],
   ["⛨","Schema-drift defense","Missing props ignored, odd types logged & skipped, eligibility re-checked."],
-  ["$","Cost control","Cheap filters first, candidate caps, TTL cache, minimal LLM spend."],
-  ["⌗","Observability","Logs keyed by id, email, stage, skip reason, debuggable from logs alone."],
+  ["$","AI only where needed","DeepSeek for judgment; regex for parsing, filtering, routing. No wasted tokens."],
+  ["⌗","Observability + Slack","Logs keyed by id, email, stage; Slack status to the team at start and finish."],
 ];
 eng.forEach((e,i)=>{
   const x = M + (i%3)*3.98, y = 2.0 + Math.floor(i/3)*2.1;
@@ -187,23 +187,23 @@ s.addText(term, {x:tx+0.35, y:2.55, w:tw-0.7, h:4.0, fontFace:MONO, fontSize:12,
 /* ---------- 8 · IMPACT ---------- */
 s = pptx.addSlide(); bg(s);
 eyebrow(s, "Impact"); title(s, "What the automation delivers");
-const imp = [["40,000","candidate rows scanned per run, unattended"],["~2 hrs","full run on Railway, webhook to shortlist"],["weeks→hrs","recruiter screening per role, collapsed"],["1","written rationale on every single match"]];
+const imp = [["40,000","candidate rows scanned per matching run"],["90-120 min","full run on Railway, with Slack status"],["2,000+/day","WhatsApp + emails (Twilio + Postmark)"],["<1 min","to parse a CV, regex-first, AI only when needed"]];
 imp.forEach((m,i)=>{
   const x = M + (i%2)*5.95, y = 2.1 + Math.floor(i/2)*2.15;
   card(s, x, y, 5.6, 1.9, PANEL2);
   s.addText(m[0],{x:x+0.4,y:y+0.32,w:5,h:0.9,fontFace:H,fontSize:38,bold:true,color:TEAL});
   s.addText(m[1],{x:x+0.42,y:y+1.25,w:4.95,h:0.5,fontFace:BODY,fontSize:14,color:MUTED});
 });
-s.addText("Business outcome above. The six-stage workflow that produces it is on the previous slides.",
+s.addText("Manual work that took weeks, now seconds to a couple of hours. Workflow on the previous slides.",
   { x:M, y:6.5, w:11.9, h:0.4, fontFace:BODY, fontSize:13, italic:true, color:SOFT, align:"center" });
 
 /* ---------- 9 · CLOSING ---------- */
 s = pptx.addSlide(); bg(s);
 s.addText("WHAT THIS DEMONSTRATES", {x:M,y:1.2,w:11,h:0.3,fontFace:MONO,fontSize:12,color:TEAL,charSpacing:2});
 const sig = [
-  ["Automation","14 event-driven services, idempotent, rate-limited, running unattended in production."],
+  ["AI automation","14 event-driven services, idempotent, rate-limited, running unattended in production."],
   ["Technical writing","Audience-layered operational handbooks, failure-first troubleshooting, this case study."],
-  ["Applied AI","A cost-aware, explainable, retried LLM scoring pipeline, not a single API call."],
+  ["Cost-aware AI","DeepSeek on judgment-heavy steps, regex everywhere else. No wasted tokens."],
 ];
 sig.forEach((g,i)=>{
   const y = 1.85 + i*1.25;

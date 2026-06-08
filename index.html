@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Wessam Mandour | AI Automation Engineer & Technical Writer</title>
+<title>Wessam Mandour | AI Automations Expert & Technical Writer</title>
 <meta name="description" content="Case study: an end-to-end AI recruiting automation platform. Multi-stage LLM matching pipeline, comms automation across 14 services, and the documentation that ships with it." />
 <style>
   :root{
@@ -124,7 +124,7 @@
       <a href="#impact">Impact</a>
       <a href="#architecture">Architecture</a>
       <a href="#pipeline">Matching Engine</a>
-      <a href="#engineering">Engineering</a>
+      <a href="#engineering">Under the Hood</a>
       <a href="#writing">Writing</a>
       <a href="#stack">Stack</a>
     </div>
@@ -134,13 +134,13 @@
 <!-- ============ HERO ============ -->
 <header class="hero">
   <div class="wrap">
-    <p class="eyebrow">AI Automation Engineering &amp; Technical Writing</p>
+    <p class="eyebrow">AI Automation &amp; Technical Documentation</p>
     <h1>Wessam Mandour</h1>
-    <p class="lead">I <b>architect, build, and ship</b> production automation systems from scratch, then document them well enough to run unattended. This is a case study of an end-to-end <b>AI recruiting platform</b> I designed and built solo: a multi-stage LLM matching engine and a communications pipeline running across 14 deployed services.</p>
+    <p class="lead">I build <b>AI workflows and automations</b> that turn manual processes which once took weeks into runs that finish in seconds, minutes, or at most a couple of hours. I reserve AI for the steps that genuinely need judgment and let fast deterministic logic handle the rest, then document the whole thing well enough to run unattended. This case study is an end-to-end <b>AI recruiting platform</b> I designed and built solo.</p>
     <div class="roles">
-      <span class="pill">AI Automation Engineer</span>
+      <span class="pill">AI Automations Expert</span>
       <span class="pill">Senior Technical Writer</span>
-      <span class="pill">LLM Systems · End-to-End</span>
+      <span class="pill">DeepSeek · LLM Workflows</span>
     </div>
     <div class="cta">
       <a class="btn primary" href="#system">Read the case study ↓</a>
@@ -160,19 +160,19 @@
     <div class="grid g2" style="margin-top:26px">
       <div class="card">
         <h3><span class="ico">◆</span> Matching Engine</h3>
-        <p><b style="color:var(--ink)">Python · FastAPI · ~3,900 LoC.</b> A webhook-driven service that turns a free-text job description into a structured rubric, then scores and ranks a candidate pool through a six-stage funnel ending in an LLM judgment with a written rationale per candidate.</p>
+        <p><b style="color:var(--ink)">Python · FastAPI · DeepSeek.</b> A webhook-driven service that turns a free-text job description into a structured rubric, then scores and ranks a candidate pool through a six-stage funnel. A full run takes <b>90 to 120 minutes</b> on Railway and posts <b>Slack status updates</b> so the whole team sees a run start, progress, and finish.</p>
       </div>
       <div class="card">
         <h3><span class="ico">◆</span> Candidate Flow</h3>
-        <p><b style="color:var(--ink)">Node · Express · 14 deployed services.</b> The communications and data pipeline around the engine: batched email and WhatsApp outreach, interview-transcript ingestion and scoring, and CV parsing, each automation isolated as its own service.</p>
+        <p><b style="color:var(--ink)">Node · Express · 14 services.</b> The communications and data pipeline: <b>2,000+ WhatsApp messages and emails a day</b> (Twilio + Postmark), interview-transcript ingestion and scoring, and a CV parser that finishes in <b>under a minute</b>. Most tasks run in seconds; each automation is isolated as its own service.</p>
       </div>
     </div>
 
     <div class="metrics" style="margin-top:22px">
-      <div class="metric"><div class="n">40,000</div><div class="l">candidate rows scanned per run</div></div>
-      <div class="metric"><div class="n">~2 hrs</div><div class="l">full run, unattended on Railway</div></div>
-      <div class="metric"><div class="n">14</div><div class="l">services live on Railway</div></div>
-      <div class="metric"><div class="n">weeks→hrs</div><div class="l">recruiter screening per role</div></div>
+      <div class="metric"><div class="n">40,000</div><div class="l">rows scanned per matching run</div></div>
+      <div class="metric"><div class="n">90–120 min</div><div class="l">full matching run on Railway</div></div>
+      <div class="metric"><div class="n">2,000+/day</div><div class="l">WhatsApp + emails sent</div></div>
+      <div class="metric"><div class="n">&lt;1 min</div><div class="l">to parse a CV (regex-first)</div></div>
     </div>
   </div>
 </section>
@@ -182,24 +182,24 @@
   <div class="wrap">
     <p class="eyebrow">Impact</p>
     <h2>What it delivers, and how it works</h2>
-    <p class="lede">Two audiences read a system like this differently. Business owners want the outcome; engineering leaders want the workflow that produces it. Here is both.</p>
+    <p class="lede">The whole point: manual processes that used to take <b>weeks</b> now finish in <b>seconds, minutes, or at most a couple of hours</b>. Two audiences read a system like this differently, so here is both the outcome and the workflow that produces it.</p>
 
     <div class="grid g2" style="margin-top:24px">
       <div class="card">
         <h3 style="color:var(--accent)">For the business</h3>
         <ul class="clean">
-          <li>One <b>2-hour run</b> on Railway scans the <b>full 40,000-candidate database</b> and returns a ranked, explained shortlist for a role.</li>
-          <li>Screening that volume by hand is <b>weeks of recruiter time</b>; the platform collapses it into a single unattended run that needs no babysitting.</li>
+          <li>A single <b>90 to 120 minute</b> run on Railway scans the <b>full 40,000-candidate database</b> and returns a ranked, explained shortlist for a role, work that is otherwise <b>weeks</b> of manual screening.</li>
+          <li>Communications run at scale every day: <b>2,000+ WhatsApp messages and emails</b>, with CV parsing done in under a minute.</li>
+          <li>The team stays informed automatically: each matching run posts <b>Slack status updates</b> at start, progress, and completion, so everyone sees state without asking.</li>
           <li>Every match ships with a written reason, so the team can <b>act on the shortlist immediately</b> instead of re-checking the tool.</li>
-          <li>Runs <b>24/7 on Railway</b>, triggered automatically by webhooks. No one has to start it.</li>
         </ul>
       </div>
       <div class="card">
-        <h3 style="color:var(--accent)">For the engineering team</h3>
+        <h3 style="color:var(--accent)">For the technical team</h3>
         <ul class="clean">
+          <li><b>AI only where it earns its keep:</b> DeepSeek is reserved for the judgment-heavy steps; parsing, filtering, and routing are handled by fast deterministic logic and regex, so tokens are never wasted.</li>
           <li>Event-driven: a workspace change fires a webhook, the right Railway service handles it, the result is written back.</li>
-          <li>The 40,000-row scan is made affordable by a <b>cheap-filter-first funnel</b> that narrows the pool before any paid LLM call.</li>
-          <li>The 2-hour run stays inside provider quotas via a <b>sequential queue, concurrency caps, and backoff</b>.</li>
+          <li>The run stays inside provider quotas via a <b>sequential queue, concurrency caps, and backoff</b>; the cheap-filter-first funnel narrows the pool before any paid LLM call.</li>
           <li>Idempotent re-runs, per-candidate error isolation, and schema-drift defense keep an unattended run from corrupting data.</li>
         </ul>
       </div>
@@ -335,7 +335,7 @@
 <!-- ============ ENGINEERING ============ -->
 <section id="engineering">
   <div class="wrap">
-    <p class="eyebrow">Engineering</p>
+    <p class="eyebrow">Under the Hood</p>
     <h2>The parts that make it production, not a script</h2>
     <p class="lede">Anyone can wire an API to an LLM. Keeping it correct, affordable, and recoverable while it runs unattended against rate-limited third-party services is the actual job.</p>
 
@@ -348,10 +348,10 @@
         <p>Exponential backoff on transient failures; empty-response and invalid-JSON hardening on LLM calls. Individual failures are skipped, the job only fails if <i>zero</i> usable results were produced.</p></div>
       <div class="card"><h3><span class="ico">⛨</span> Schema-drift defense</h3>
         <p>Third-party schemas change without warning. Missing properties are ignored, unexpected types are logged and skipped, and eligibility is re-checked after caching, so a workspace edit can't silently corrupt a run.</p></div>
-      <div class="card"><h3><span class="ico">$</span> Cost control by design</h3>
-        <p>Cheap filters run before expensive ones, candidate caps bound spend, and a TTL cache reuses candidate pools across runs. The LLM only ever sees the candidates worth paying to score.</p></div>
-      <div class="card"><h3><span class="ico">⌗</span> Observability</h3>
-        <p>Structured logs trace every record by page id, email, stage, and skip reason, so "why wasn't this candidate matched?" is answerable from logs alone, without a debugger.</p></div>
+      <div class="card"><h3><span class="ico">$</span> AI only where it earns its keep</h3>
+        <p>DeepSeek is reserved for judgment-heavy steps; parsing, filtering, and routing run on regex and deterministic logic. Cheap filters run before any paid call, caps bound spend, and a TTL cache reuses pools, so tokens are never wasted.</p></div>
+      <div class="card"><h3><span class="ico">⌗</span> Observability &amp; team comms</h3>
+        <p>Structured logs trace every record by page id, email, stage, and skip reason. Each run also posts <b>Slack status updates</b> at start, progress, and finish, so the whole team sees state without opening a log.</p></div>
     </div>
 
     <div class="callout" style="margin-top:22px">⚙︎ <b>Multi-tenant by deployment.</b> Each workflow is its own Git branch deployed as its own service, so a client with a different data schema or matching rule gets a tailored deployment without forking the codebase or risking the others. Configuration lives entirely in environment variables; no code change ships a new tenant.</div>
@@ -399,15 +399,16 @@
       <span class="chip">Notion API</span>
       <span class="chip">Postmark <span>· email</span></span>
       <span class="chip">Twilio <span>· WhatsApp</span></span>
+      <span class="chip">Slack <span>· status comms</span></span>
       <span class="chip">Hireflix · Fireflies <span>· transcripts</span></span>
       <span class="chip">Railway <span>· deploy</span></span>
       <span class="chip">Webhooks <span>· event-driven</span></span>
-      <span class="chip">Git <span>· branch-per-tenant</span></span>
+      <span class="chip">Regex <span>· deterministic parsing</span></span>
     </div>
     <ul class="clean" style="margin-top:24px">
-      <li><b>Automation Specialist signal:</b> 14 integrated services, event-driven, idempotent, rate-limited, running unattended in production.</li>
+      <li><b>AI automation signal:</b> 14 integrated services, event-driven, idempotent, rate-limited, running unattended in production, with AI reserved for the steps that need it.</li>
       <li><b>Senior Technical Writer signal:</b> audience-layered operational handbooks, failure-first troubleshooting, and this case study itself.</li>
-      <li><b>AI/LLM signal:</b> a cost-aware, explainable, retried scoring pipeline, not a single API call.</li>
+      <li><b>Cost-aware AI signal:</b> DeepSeek used only on judgment-heavy steps, regex and deterministic logic everywhere else, an explainable and retried scoring pipeline rather than a single API call.</li>
     </ul>
   </div>
 </section>
@@ -416,7 +417,7 @@
 <footer id="contact">
   <div class="wrap">
     <p class="eyebrow">Contact</p>
-    <p style="font-size:1.05rem;color:var(--ink);margin:0 0 6px"><b>Wessam Mandour</b>, AI Automation Engineer &amp; Technical Writer</p>
+    <p style="font-size:1.05rem;color:var(--ink);margin:0 0 6px"><b>Wessam Mandour</b> &middot; AI Automations Expert &amp; Technical Writer</p>
     <p class="muted" style="margin:0 0 16px">
       <a href="mailto:wessam.mandour94@gmail.com">wessam.mandour94@gmail.com</a> &nbsp;·&nbsp;
       <a href="https://www.linkedin.com/in/wessam-mandour/">LinkedIn</a> &nbsp;·&nbsp;
