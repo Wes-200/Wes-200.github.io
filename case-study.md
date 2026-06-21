@@ -200,6 +200,28 @@ Nothing is hard-coded. Behavior is driven entirely by environment variables, so 
 
 ---
 
+## Reliability and error handling, in the real numbers
+
+The difference between a script and a production system is everything that happens when a third party misbehaves. Here is the actual handling, pulled from the two codebases.
+
+### Project 01, Role Matching (Python / FastAPI)
+
+- **DeepSeek scoring.** Calls go over raw HTTPX (chosen over the SDK to control the auth headers and debug 401s), each with a 90-second timeout and **up to 7 retries** using exponential backoff plus jitter, capped at 60s per wait. The handling is status-aware: a `429` honours the **Retry-After** header when present and otherwise backs off; **5xx** errors retry; any **other 4xx fails fast**. Timeouts, connection/read errors, empty completions, a missing content field, and invalid JSON are all retried as one `RetryableLLMOutputError` that logs the finish reason, message keys, and a content preview.
+- **Notion.** A retry wrapper allows **up to 10 attempts inside a 180-second window**, jittered backoff capped at 45s, with a **longer base delay for 503 availability errors**; it honours `Retry-After` and uses a 120s client timeout. An expired/invalid pagination cursor is treated as fatal in place, so a crawl that hits one **cools down 5 minutes and restarts once**. A truncated ~2 MB JSON response is deliberately not retried, because the same page size would fail again.
+- **Concurrency and queueing.** A **single global async semaphore (default 100)** caps total DeepSeek load across all jobs; a prefetch sliding window keeps throughput high without exceeding it, and in-flight tasks are cancelled the moment the target is met. Jobs run through a **sequential queue, one at a time, with a 5-minute cooldown between jobs** (60s after an error) to let Notion recover. Existing-row writes are spaced by a configurable delay (default 30s).
+- **Isolation.** Each candidate is scored in its own task; one failure is logged and skipped, and the run only fails if zero usable scores come back. The candidate cache (TTL, default 15 min, keyed by filter) is marked fresh only after a fully successful run.
+
+### Project 02, Candidate Flow (Node / Express)
+
+- **Email (Postmark).** Enforces **hourly and daily send caps** via a sliding window of timestamps (throws a cap error rather than overshoot), retries `408/429/5xx` with exponential backoff (default 3), and on a transient error the sequential queue **cools down 5 minutes** before continuing; sends are spaced ~1s apart, with a 2-minute delay before a WhatsApp follow-up.
+- **Interview transcripts (Hireflix/Fireflies).** The webhook returns `200` immediately and processes in the background, **polling for up to 10 minutes at 60-second intervals**. It writes only once **every answer is transcribed** (transcribed count vs. question count), with a marker-based parser fallback, and degrades gracefully to a partial or URL/status-only update if the window passes. The interview API is throttled to ~3 requests/second, and emails must match exactly after trimming.
+- **WhatsApp (Twilio).** Cron-driven, with **five message templates** and a configurable "hours since" threshold (default 24h); a "reminder sent" timestamp stops the next sweep from re-nudging anyone.
+- **Notion.** Retries `429/5xx` (and `408/409`) up to a configurable max (default 3) with exponential backoff inside an AbortController timeout (default 15s); invalid cursors get a bounded cooldown-retry. A **processing guard** runs as both a server-side filter and a local re-check that tolerates missing or wrong-typed properties.
+- **CV parsing.** PDF text is extracted **deterministically (pdf-parse + regex)**; DeepSeek is used only to structure and score it, with a 90s timeout, Retry-After-aware retries, and ~1s spacing between calls.
+- **Process hygiene.** Global `uncaughtException` / `unhandledRejection` handlers, graceful `SIGTERM` shutdown, cached data-source ids/schemas, and a pinned Notion API version.
+
+---
+
 ## What this demonstrates
 
 - **AI automation**, 14 integrated, event-driven services running unattended in production with idempotency, rate limiting, and graceful degradation.

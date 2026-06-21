@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Case Study | Wessam Mandour</title>
-<meta name="description" content="Long-form case study: an end-to-end AI recruiting automation platform, two independent projects, designed and built from scratch." />
+<meta name="description" content="Long-form case study: an AI recruiting automation platform of two independent projects, with production-grade retry, rate limiting, and error handling." />
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <link rel="alternate icon" href="favicon.png" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -478,6 +478,85 @@ variables, so the same codebase redeploys to a new database, setting, or
 reminder timeframe in about 5 minutes, for example the matching engine
 on DeepSeek Flash versus Pro, or the WhatsApp reminder service deployed
 three times with different "hours since submission" thresholds.</p>
+<hr />
+<h2 id="reliability-and-error-handling-in-the-real-numbers">Reliability
+and error handling, in the real numbers</h2>
+<p>The difference between a script and a production system is everything
+that happens when a third party misbehaves. Here is the actual handling,
+pulled from the two codebases.</p>
+<h3 id="project-01-role-matching-python--fastapi">Project 01, Role
+Matching (Python / FastAPI)</h3>
+<ul>
+<li><strong>DeepSeek scoring.</strong> Calls go over raw HTTPX (chosen
+over the SDK to control the auth headers and debug 401s), each with a
+90-second timeout and <strong>up to 7 retries</strong> using exponential
+backoff plus jitter, capped at 60s per wait. The handling is
+status-aware: a <code>429</code> honours the
+<strong>Retry-After</strong> header when present and otherwise backs
+off; <strong>5xx</strong> errors retry; any <strong>other 4xx fails
+fast</strong>. Timeouts, connection/read errors, empty completions, a
+missing content field, and invalid JSON are all retried as one
+<code>RetryableLLMOutputError</code> that logs the finish reason,
+message keys, and a content preview.</li>
+<li><strong>Notion.</strong> A retry wrapper allows <strong>up to 10
+attempts inside a 180-second window</strong>, jittered backoff capped at
+45s, with a <strong>longer base delay for 503 availability
+errors</strong>; it honours <code>Retry-After</code> and uses a 120s
+client timeout. An expired/invalid pagination cursor is treated as fatal
+in place, so a crawl that hits one <strong>cools down 5 minutes and
+restarts once</strong>. A truncated ~2 MB JSON response is deliberately
+not retried, because the same page size would fail again.</li>
+<li><strong>Concurrency and queueing.</strong> A <strong>single global
+async semaphore (default 100)</strong> caps total DeepSeek load across
+all jobs; a prefetch sliding window keeps throughput high without
+exceeding it, and in-flight tasks are cancelled the moment the target is
+met. Jobs run through a <strong>sequential queue, one at a time, with a
+5-minute cooldown between jobs</strong> (60s after an error) to let
+Notion recover. Existing-row writes are spaced by a configurable delay
+(default 30s).</li>
+<li><strong>Isolation.</strong> Each candidate is scored in its own
+task; one failure is logged and skipped, and the run only fails if zero
+usable scores come back. The candidate cache (TTL, default 15 min, keyed
+by filter) is marked fresh only after a fully successful run.</li>
+</ul>
+<h3 id="project-02-candidate-flow-node--express">Project 02, Candidate
+Flow (Node / Express)</h3>
+<ul>
+<li><strong>Email (Postmark).</strong> Enforces <strong>hourly and daily
+send caps</strong> via a sliding window of timestamps (throws a cap
+error rather than overshoot), retries <code>408/429/5xx</code> with
+exponential backoff (default 3), and on a transient error the sequential
+queue <strong>cools down 5 minutes</strong> before continuing; sends are
+spaced ~1s apart, with a 2-minute delay before a WhatsApp
+follow-up.</li>
+<li><strong>Interview transcripts (Hireflix/Fireflies).</strong> The
+webhook returns <code>200</code> immediately and processes in the
+background, <strong>polling for up to 10 minutes at 60-second
+intervals</strong>. It writes only once <strong>every answer is
+transcribed</strong> (transcribed count vs. question count), with a
+marker-based parser fallback, and degrades gracefully to a partial or
+URL/status-only update if the window passes. The interview API is
+throttled to ~3 requests/second, and emails must match exactly after
+trimming.</li>
+<li><strong>WhatsApp (Twilio).</strong> Cron-driven, with <strong>five
+message templates</strong> and a configurable "hours since" threshold
+(default 24h); a "reminder sent" timestamp stops the next sweep from
+re-nudging anyone.</li>
+<li><strong>Notion.</strong> Retries <code>429/5xx</code> (and
+<code>408/409</code>) up to a configurable max (default 3) with
+exponential backoff inside an AbortController timeout (default 15s);
+invalid cursors get a bounded cooldown-retry. A <strong>processing
+guard</strong> runs as both a server-side filter and a local re-check
+that tolerates missing or wrong-typed properties.</li>
+<li><strong>CV parsing.</strong> PDF text is extracted
+<strong>deterministically (pdf-parse + regex)</strong>; DeepSeek is used
+only to structure and score it, with a 90s timeout, Retry-After-aware
+retries, and ~1s spacing between calls.</li>
+<li><strong>Process hygiene.</strong> Global
+<code>uncaughtException</code> / <code>unhandledRejection</code>
+handlers, graceful <code>SIGTERM</code> shutdown, cached data-source
+ids/schemas, and a pinned Notion API version.</li>
+</ul>
 <hr />
 <h2 id="what-this-demonstrates">What this demonstrates</h2>
 <ul>

@@ -77,14 +77,18 @@
                 margin: 0;
                 padding: 20px;
             }
+
+            #cvbar { display: none !important; }
         }
     </style>
     <base target="_blank">
 </head>
 
 <body class="bg-white text-gray-800">
-    <p>&nbsp;</p>
-    <p>Wessam Mandour - CV</p>
+    <div id="cvbar" style="position:sticky;top:0;z-index:50;background:#0d1117;border-bottom:1px solid #2a3240;padding:11px 24px;display:flex;justify-content:space-between;align-items:center;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;">
+      <a href="./" target="_self" style="color:#5eead4;text-decoration:none;font-size:14px;">&larr; Back to portfolio</a>
+      <button onclick="window.print()" style="background:#161b22;color:#5eead4;border:1px solid #2a3240;border-radius:8px;padding:7px 14px;font-family:inherit;font-size:13px;cursor:pointer;">Print / Save as PDF</button>
+    </div>
     <div class="container mx-auto max-w-4xl px-6 py-8">
         
         <!-- Header -->
