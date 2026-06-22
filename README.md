@@ -1,6 +1,6 @@
 # Wessam Mandour, Portfolio
 
-Source for my portfolio site, live at **[wessam-mandour.github.io](https://wessam-mandour.github.io/)**.
+Source for my portfolio site, live at **[wes-200.github.io](https://wes-200.github.io/)**.
 
 It's a single case study of an **AI recruiting automation platform** I designed and built from scratch: a multi-stage LLM matching engine plus a communications pipeline running across 14 deployed services.
 
@@ -13,4 +13,4 @@ All client names, database identifiers, and proprietary data have been removed; 
 ---
 
 **Wessam Mandour** · AI Automations Expert & Technical Writer
-[wessam.mandour94@gmail.com](mailto:wessam.mandour94@gmail.com) · [LinkedIn](https://www.linkedin.com/in/wessam-mandour/) · [GitHub](https://github.com/Wessam-Mandour)
+[wessam.mandour94@gmail.com](mailto:wessam.mandour94@gmail.com) · [LinkedIn](https://www.linkedin.com/in/wessam-mandour/) · [GitHub](https://github.com/Wes-200)

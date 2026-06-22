@@ -88,13 +88,13 @@ const clamp01 = v => Math.max(0, Math.min(1, v));
       #vidcap .eye{font-family:ui-monospace,Consolas,monospace;font-size:14px;letter-spacing:.14em;text-transform:uppercase;color:#5eead4;margin-bottom:7px}
       #vidcap .h{font-size:32px;font-weight:800;color:#fff;letter-spacing:-.01em;line-height:1.12}
       #vidcap .sub{font-size:16px;color:#aab6c2;margin-top:8px;line-height:1.4}
-      #vidover{position:fixed;inset:0;z-index:9998;background:#0d1117;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
+      #vidover{position:fixed;inset:0;z-index:10000;background:#0d1117;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
       #vidover .mono{width:96px;height:96px;border:2px solid #5eead4;border-radius:22px;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-weight:700;font-size:44px;color:#5eead4;margin-bottom:28px;box-shadow:0 0 40px rgba(94,234,212,.25)}
       #vidover .nm{font-family:Georgia,serif;font-size:52px;font-weight:700;color:#fff}
       #vidover .ti{font-size:22px;color:#5eead4;margin-top:12px}
       #vidover .u{font-family:ui-monospace,Consolas,monospace;font-size:15px;color:#7d8896;margin-top:26px;letter-spacing:.1em}
       #vidflash{position:fixed;inset:0;z-index:9999;background:#080b10;opacity:0;pointer-events:none}
-      #vidprog{position:fixed;left:0;bottom:0;height:4px;width:0;z-index:10000;background:#5eead4}
+      #vidprog{position:fixed;left:0;bottom:0;height:4px;width:0;z-index:10001;background:#5eead4}
     `;
     document.head.appendChild(css);
     const cap=document.createElement('div'); cap.id='vidcap';
@@ -107,8 +107,8 @@ const clamp01 = v => Math.max(0, Math.min(1, v));
     const prog=document.createElement('div'); prog.id='vidprog'; document.body.appendChild(prog);
     // persistent URL watermark (always visible, survives download + re-upload)
     const mark=document.createElement('div');
-    mark.innerHTML='<span class="wm">WM</span><span class="u">wessam-mandour.github.io</span>';
-    mark.style.cssText='position:fixed;right:26px;bottom:24px;z-index:10001;display:flex;align-items:center;gap:9px;'+
+    mark.innerHTML='<span class="wm">WM</span><span class="u">wes-200.github.io</span>';
+    mark.style.cssText='position:fixed;right:26px;bottom:24px;z-index:10002;display:flex;align-items:center;gap:9px;'+
       'background:rgba(10,14,20,.74);backdrop-filter:blur(4px);border:1px solid #2a3240;border-radius:999px;padding:8px 16px 8px 10px';
     mark.querySelector('.wm').style.cssText='width:22px;height:22px;border:1.5px solid #5eead4;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-weight:700;font-size:11px;color:#5eead4';
     mark.querySelector('.u').style.cssText='font-family:ui-monospace,Consolas,monospace;font-size:15px;color:#e6edf3;letter-spacing:.02em';
@@ -174,7 +174,7 @@ const clamp01 = v => Math.max(0, Math.min(1, v));
         const fo = ls > seg.dur-0.5 ? clamp01((ls-(seg.dur-0.5))/0.5) : 0;
         st.over = { op: 1-fo, set:true, nm:'Wessam Mandour',
           ti:'AI Automations Expert & Technical Writer',
-          u:'A guided walkthrough · wessam-mandour.github.io' };
+          u:'A guided walkthrough · wes-200.github.io' };
       }
       else if (seg.kind==='scene'){
         const drift = 58;
@@ -197,7 +197,7 @@ const clamp01 = v => Math.max(0, Math.min(1, v));
         st.flash = 1;
         st.over = { op: easeInOut(clamp01(ls/0.5)), set:true, nm:'Let’s talk.',
           ti:'wessam.mandour94@gmail.com',
-          u:'linkedin.com/in/wessam-mandour · github.com/Wessam-Mandour' };
+          u:'linkedin.com/in/wessam-mandour · github.com/Wes-200' };
       }
 
       await page.evaluate(s => window.__vid(s), st);
