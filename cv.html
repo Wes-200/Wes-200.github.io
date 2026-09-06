@@ -7,10 +7,10 @@
   <meta name="description" content="Wessam Mandour - Knowledge Management, Technical Writing and Workflow Automation">
   <style>
     :root {
-      --ink: #18212b;
-      --muted: #56616d;
-      --line: #cfd6dc;
+      --ink: #17212b;
+      --muted: #5b6672;
       --accent: #243f5a;
+      --line: #cfd6dd;
       --paper: #ffffff;
       --screen: #eef1f4;
     }
@@ -21,11 +21,11 @@
 
     body {
       margin: 0;
+      background: var(--screen);
       color: var(--ink);
       font-family: Calibri, Arial, Helvetica, sans-serif;
-      font-size: 9.9pt;
-      line-height: 1.31;
-      background: var(--screen);
+      font-size: 9.85pt;
+      line-height: 1.29;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
@@ -43,9 +43,9 @@
       border-radius: 6px;
       background: var(--accent);
       color: #fff;
+      padding: 9px 14px;
       font: inherit;
       font-weight: 700;
-      padding: 9px 14px;
       cursor: pointer;
     }
 
@@ -59,54 +59,63 @@
     }
 
     header {
-      border-bottom: 2px solid var(--accent);
+      text-align: center;
       padding-bottom: 7px;
       margin-bottom: 8px;
+      border-bottom: 2px solid var(--accent);
     }
 
     h1 {
       margin: 0;
-      font-size: 23pt;
-      line-height: 1.02;
+      color: #101820;
+      font-size: 23.5pt;
+      line-height: 1;
       letter-spacing: -0.35px;
-      color: #111820;
+      font-weight: 700;
     }
 
     .headline {
-      margin-top: 4px;
-      font-size: 11.1pt;
-      font-weight: 700;
+      margin-top: 5px;
       color: var(--accent);
+      font-size: 11.05pt;
+      font-weight: 700;
     }
 
-    .contact {
-      margin-top: 5px;
+    .contact-row {
+      margin-top: 4px;
       display: flex;
       flex-wrap: wrap;
-      gap: 3px 11px;
+      justify-content: center;
+      align-items: center;
+      gap: 2px 8px;
       color: var(--muted);
-      font-size: 9pt;
+      font-size: 9.05pt;
     }
 
-    .contact a {
+    .contact-row a {
       color: inherit;
       text-decoration: none;
     }
 
-    .contact a:hover { text-decoration: underline; }
+    .contact-row a:hover { text-decoration: underline; }
+
+    .sep {
+      color: #9aa4ae;
+      user-select: none;
+    }
 
     section {
-      margin-top: 8.5px;
+      margin-top: 8px;
     }
 
     h2 {
       margin: 0 0 4px;
       padding-bottom: 2px;
-      border-bottom: 1px solid var(--line);
       color: var(--accent);
-      font-size: 10.5pt;
+      border-bottom: 1px solid var(--line);
+      font-size: 10.55pt;
       line-height: 1.2;
-      letter-spacing: .7px;
+      letter-spacing: .65px;
       text-transform: uppercase;
     }
 
@@ -116,7 +125,7 @@
 
     .skills {
       display: grid;
-      gap: 2.2px;
+      gap: 2px;
     }
 
     .skill-line {
@@ -124,66 +133,99 @@
     }
 
     .skill-line strong {
-      color: #24313e;
+      color: #283746;
     }
 
     .role {
-      margin-top: 6.8px;
+      margin-top: 6.2px;
       break-inside: avoid;
       page-break-inside: avoid;
     }
 
-    .role:first-of-type { margin-top: 0; }
+    .role:first-child { margin-top: 0; }
 
     .role-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
+      display: grid;
+      grid-template-columns: 1fr auto;
       align-items: baseline;
+      column-gap: 14px;
       margin-bottom: 1px;
     }
 
     .role-title {
-      font-weight: 700;
+      color: #111a22;
       font-size: 10.25pt;
-      color: #101820;
+      font-weight: 700;
     }
 
     .dates {
-      flex: 0 0 auto;
-      white-space: nowrap;
       color: var(--muted);
       font-size: 8.9pt;
       font-weight: 700;
+      white-space: nowrap;
+      text-align: right;
     }
 
     .company {
-      margin-bottom: 2.5px;
+      margin-bottom: 2px;
       color: var(--muted);
+      font-size: 9.15pt;
       font-weight: 600;
-      font-size: 9.25pt;
+    }
+
+    .scope {
+      margin: 1px 0 2px;
+    }
+
+    .subhead {
+      margin: 2px 0 1px;
+      color: var(--accent);
+      font-size: 8.75pt;
+      font-weight: 700;
+      letter-spacing: .35px;
+      text-transform: uppercase;
     }
 
     ul {
-      margin: 2.5px 0 0 16px;
+      margin: 2px 0 0 16px;
       padding: 0;
     }
 
     li {
-      margin: 0 0 1.5px;
+      margin: 0 0 1.3px;
       padding-left: 1px;
     }
 
-    .education-item {
-      margin-top: 4px;
+    .achievement-list li {
+      font-weight: 600;
     }
 
-    .education-item strong {
-      display: block;
+    .education-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: baseline;
+      margin-top: 2px;
+    }
+
+    .education-title {
+      font-weight: 700;
+    }
+
+    .education-meta,
+    .education-date {
+      color: var(--muted);
+      font-size: 9.05pt;
+    }
+
+    .education-date {
+      white-space: nowrap;
+      font-weight: 700;
+      text-align: right;
     }
 
     .certs {
-      margin-top: 2px;
+      margin-top: 3px;
     }
 
     .page-break {
@@ -193,8 +235,14 @@
 
     @media print {
       html, body { background: #fff; }
-      body { font-size: 9.35pt; line-height: 1.26; }
+
+      body {
+        font-size: 9.25pt;
+        line-height: 1.24;
+      }
+
       .toolbar { display: none !important; }
+
       .cv {
         width: auto;
         min-height: 0;
@@ -202,15 +250,25 @@
         padding: 0;
         box-shadow: none;
       }
+
       @page {
         size: A4;
         margin: 9.5mm 11.5mm 10mm;
       }
-      header { margin-bottom: 6px; padding-bottom: 5px; }
-      section { margin-top: 7px; }
-      .role { margin-top: 5.4px; }
-      li { margin-bottom: 1.1px; }
-      a { color: inherit; text-decoration: none; }
+
+      header {
+        margin-bottom: 6px;
+        padding-bottom: 5px;
+      }
+
+      section { margin-top: 6.5px; }
+      .role { margin-top: 5px; }
+      li { margin-bottom: 1px; }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
     }
 
     @media (max-width: 820px) {
@@ -220,8 +278,19 @@
         margin-left: 10px;
         margin-right: 10px;
       }
+
       .cv { padding: 24px; }
-      .role-head { align-items: flex-start; }
+
+      .role-head,
+      .education-grid {
+        grid-template-columns: 1fr;
+        row-gap: 1px;
+      }
+
+      .dates,
+      .education-date {
+        text-align: left;
+      }
     }
   </style>
 </head>
@@ -236,15 +305,19 @@
       <h1>Wessam Mandour</h1>
       <div class="headline">Knowledge Management | Technical Writing | Workflow Automation</div>
 
-      <div class="contact">
+      <div class="contact-row">
         <span>Cairo, Egypt</span>
+        <span class="sep">•</span>
         <a href="tel:+201021966628">+20 102 196 6628</a>
+        <span class="sep">•</span>
         <a href="mailto:wessam.mandour94@gmail.com">wessam.mandour94@gmail.com</a>
       </div>
 
-      <div class="contact">
+      <div class="contact-row">
         <a href="https://wes-200.github.io">wes-200.github.io</a>
+        <span class="sep">•</span>
         <a href="https://linkedin.com/in/wessam-mandour">linkedin.com/in/wessam-mandour</a>
+        <span class="sep">•</span>
         <a href="https://github.com/Wes-200">github.com/Wes-200</a>
       </div>
     </header>
@@ -276,34 +349,50 @@
 
       <article class="role">
         <div class="role-head">
-          <div class="role-title">Tech Lead, Automation &amp; Systems (Part-time / Freelance)</div>
-          <div class="dates">Sep 2025 - Present</div>
+          <div class="role-title">Technical Writer</div>
+          <div class="dates">Jan 2026 - Present</div>
         </div>
-        <div class="company">Palm Outsourcing | United Kingdom, Remote</div>
+        <div class="company">Mobile Tornado | United Kingdom, Remote | Client engagement via Palm Outsourcing</div>
+
+        <p class="scope">Produce and maintain technical and user-facing documentation for enterprise push-to-talk products, using Confluence and HTML-based documentation workflows.</p>
+
+        <div class="subhead">Key Responsibilities</div>
         <ul>
-          <li>Lead recruitment automation and operational systems supporting high-volume screening and a candidate pool of approximately 12,000 records.</li>
-          <li>Built and operate an end-to-end recruiting workflow integrating Notion, Postmark, Twilio WhatsApp, Hireflix, Slack and Railway.</li>
-          <li>Built a FastAPI-based candidate-role matching engine with structured scoring, AI-assisted transcript evaluation and deterministic data integrity controls.</li>
-          <li>Engineered resilient messaging and data workflows with rate limiting, retries, backoff, deduplication, monitoring and failure recovery.</li>
-          <li>Own Notion workspace architecture, database design, permissions and access governance, and produce SOPs supporting operational continuity.</li>
-          <li>Reduced candidate pooling and shortlisting time per role from approximately 1 week to 45 minutes.</li>
-          <li>Reduced WhatsApp screening reminder delivery from 3 days to under 1 minute through event-driven automation.</li>
-          <li>Reduced Postmark bounce rate to below 1% through validation, throttling and error classification while scaling operations without additional headcount.</li>
+          <li>Improve information architecture, navigation, consistency, content reuse and single-sourcing across documentation sets.</li>
+          <li>Collaborate with product and technical stakeholders to validate software behaviour, UI terminology and documentation requirements.</li>
+          <li>Develop user-facing documentation, UI copy, onboarding guidance and video tutorials supporting product usability and adoption.</li>
+        </ul>
+
+        <div class="subhead">Achievements</div>
+        <ul class="achievement-list">
+          <li>Rewrote and restructured the 89-page Instant Talk Android Client User Guide into a standards-compliant partner reference.</li>
+          <li>Delivered a guide adopted as the canonical reference across Mobile Tornado's international partner network.</li>
         </ul>
       </article>
 
       <article class="role">
         <div class="role-head">
-          <div class="role-title">Technical Writer</div>
-          <div class="dates">Jan 2026 - Present</div>
+          <div class="role-title">Tech Lead, Automation &amp; Systems (Part-time / Freelance)</div>
+          <div class="dates">Sep 2025 - Jun 2026</div>
         </div>
-        <div class="company">Mobile Tornado | United Kingdom, Remote | Client engagement via Palm Outsourcing</div>
+        <div class="company">Palm Outsourcing | United Kingdom, Remote</div>
+
+        <p class="scope">Led recruitment automation, internal systems and knowledge enablement supporting high-volume candidate operations and a pool of approximately 12,000 records.</p>
+
+        <div class="subhead">Key Responsibilities</div>
         <ul>
-          <li>Produce and maintain customer-facing and technical documentation for enterprise push-to-talk software, using Confluence and HTML-based documentation workflows.</li>
-          <li>Rewrote and restructured the 89-page Instant Talk Android Client User Guide into a clearer, standards-compliant partner reference adopted across Mobile Tornado's international partner network.</li>
-          <li>Improve information architecture, navigation, consistency, content reuse and single-sourcing across documentation sets.</li>
-          <li>Collaborate with product and technical stakeholders to validate software behaviour, UI terminology and documentation requirements.</li>
-          <li>Develop user-facing documentation, UI copy, onboarding guidance and video tutorials supporting product usability and adoption.</li>
+          <li>Built and operated an end-to-end recruiting workflow integrating Notion, Postmark, Twilio WhatsApp, Hireflix, Slack and Railway.</li>
+          <li>Built a FastAPI-based candidate-role matching engine with structured scoring, AI-assisted transcript evaluation and deterministic data integrity controls.</li>
+          <li>Engineered resilient workflows with rate limiting, retries, backoff, deduplication, monitoring and failure recovery.</li>
+          <li>Owned Notion architecture, database design, permissions and access governance, and produced SOPs supporting operational continuity.</li>
+        </ul>
+
+        <div class="subhead">Achievements</div>
+        <ul class="achievement-list">
+          <li>Cut candidate pooling and shortlisting time from ~1 week to ~45 minutes.</li>
+          <li>Reduced WhatsApp screening reminder delivery from 3 days to under 1 minute.</li>
+          <li>Reduced Postmark bounce rate to below 1% through automated validation, throttling and error classification.</li>
+          <li>Scaled recruitment operations without increasing operational headcount.</li>
         </ul>
       </article>
 
@@ -313,13 +402,21 @@
           <div class="dates">Oct 2024 - Dec 2025</div>
         </div>
         <div class="company">Lawazem | Saudi Arabia, Remote</div>
+
+        <p class="scope">Managed marketplace content quality, catalogue structure, onboarding workflows and operational documentation across Arabic and English content.</p>
+
+        <div class="subhead">Key Responsibilities</div>
         <ul>
-          <li>Managed marketplace content quality, catalogue structure, onboarding workflows and operational documentation across Arabic and English content.</li>
-          <li>Reviewed and improved more than 2,500 product listings for accuracy, consistency, localisation and discoverability.</li>
-          <li>Developed a product name generator using Google Apps Script and JavaScript that processed more than 3,000 products in its first month.</li>
-          <li>Established product naming and listing standards and collaborated on the launch of 2 new categories and redesigned labels across 10+ categories.</li>
+          <li>Established product naming and listing standards to reduce catalogue inconsistency.</li>
           <li>Created SOPs and onboarding documentation supporting merchant activation, sales and account management workflows.</li>
           <li>Reported directly to the CEO on marketplace performance, product improvements and merchant activity.</li>
+        </ul>
+
+        <div class="subhead">Achievements</div>
+        <ul class="achievement-list">
+          <li>Improved more than 2,500 product listings for accuracy, consistency, localisation and discoverability.</li>
+          <li>Built a product name generator in Google Apps Script and JavaScript that processed 3,000+ products in its first month.</li>
+          <li>Supported the launch of 2 new product categories and redesigned labels across 10+ categories.</li>
         </ul>
       </article>
 
@@ -329,13 +426,21 @@
           <div class="dates">Sep 2020 - Sep 2024</div>
         </div>
         <div class="company">Amazon | Cairo, Egypt</div>
+
+        <p class="scope">Managed knowledge content, process documentation and automation supporting Amazon Middle East customer service operations.</p>
+
+        <div class="subhead">Key Responsibilities</div>
         <ul>
-          <li>Managed knowledge content, process documentation and automation supporting Amazon Middle East customer service operations.</li>
-          <li>Developed and maintained an automated intake and triage workflow for Knowledge Management requests, reducing L2/L3 triage SLA from 1 hour to 5 minutes.</li>
+          <li>Developed and maintained an automated intake and triage workflow for Knowledge Management requests.</li>
           <li>Created and maintained customer-facing help content, internal policy pages, process documentation and associate communication templates.</li>
           <li>Improved content accessibility, localisation, usability and self-service through continuous improvement initiatives.</li>
           <li>Collaborated with technical, business, Public Relations and Legal teams on policies, launches and operational changes.</li>
-          <li>Led the launch of prepaid mobile recharge support content in the Middle East and supported onboarding and knowledge transfer for new team members.</li>
+        </ul>
+
+        <div class="subhead">Achievements</div>
+        <ul class="achievement-list">
+          <li>Reduced L2/L3 Knowledge Management request triage SLA from 1 hour to 5 minutes through automation.</li>
+          <li>Led the launch of prepaid mobile recharge support content in the Middle East.</li>
         </ul>
       </article>
 
@@ -345,13 +450,22 @@
           <div class="dates">Nov 2017 - Jun 2020</div>
         </div>
         <div class="company">Uber | Cairo, Egypt</div>
+
+        <p class="scope">Managed EMEA content operations across Confluence and other knowledge systems, covering SOPs, localisation, policy updates, product launches and process improvement.</p>
+
+        <div class="subhead">Key Responsibilities</div>
         <ul>
-          <li>Managed EMEA content operations across Confluence and other knowledge systems, covering SOPs, localisation, policy updates, product launches and process improvement.</li>
           <li>Created internal operational documentation and external support content across knowledge bases and help centres.</li>
           <li>Worked cross-functionally with product, growth, customer experience, operations and technical teams across EMEA.</li>
+          <li>Used SQL and spreadsheets for analysis and reporting.</li>
+        </ul>
+
+        <div class="subhead">Achievements</div>
+        <ul class="achievement-list">
           <li>Co-led an EMEA knowledge base review covering the top 50 issue types, achieving 100% completion with 0% content defects.</li>
-          <li>Improved driver satisfaction in Sub-Saharan Africa from 20% to 70% through content and Six Sigma process improvement, and co-led an SSA phone-support content launch with less than 2% contact defects.</li>
-          <li>Used SQL and spreadsheets for analysis and reporting, and led a COVID partner outreach campaign involving 4,000 calls with 80% satisfaction.</li>
+          <li>Improved driver satisfaction in Sub-Saharan Africa from 20% to 70% through content and Six Sigma process improvement.</li>
+          <li>Co-led an SSA phone-support content launch with less than 2% contact defects.</li>
+          <li>Led a COVID partner outreach campaign involving 4,000 calls with 80% satisfaction.</li>
         </ul>
       </article>
 
@@ -361,19 +475,30 @@
           <div class="dates">Jun 2016 - Nov 2017</div>
         </div>
         <div class="company">Uber | Cairo, Egypt</div>
+
+        <p class="scope">Supported launch operations for Uber's Cairo Center of Excellence serving Sub-Saharan African markets.</p>
+
+        <div class="subhead">Key Responsibilities</div>
         <ul>
-          <li>Supported launch operations for Uber's Cairo Center of Excellence serving Sub-Saharan African markets.</li>
           <li>Resolved partner enquiries, operational issues and escalations while identifying opportunities for process improvement.</li>
-          <li>Led a proof of concept for driver payments with EMEA Partner Payments, Trade &amp; Compliance and SSA Central Operations, processing and resolving 10,000 payments before Christmas Eve.</li>
+        </ul>
+
+        <div class="subhead">Achievements</div>
+        <ul class="achievement-list">
+          <li>Led a proof of concept for driver payments with EMEA Partner Payments, Trade &amp; Compliance and SSA Central Operations.</li>
+          <li>Processed and resolved 10,000 driver payments before Christmas Eve, supporting continuity of service during the holiday period.</li>
         </ul>
       </article>
     </section>
 
     <section>
       <h2>Education &amp; Certifications</h2>
-      <div class="education-item">
-        <strong>Bachelor's Degree in Language &amp; Simultaneous Interpretation</strong>
-        Cairo Higher Institutes | Cairo, Egypt | 2012 - 2016
+      <div class="education-grid">
+        <div>
+          <div class="education-title">Bachelor's Degree in Language &amp; Simultaneous Interpretation</div>
+          <div class="education-meta">Cairo Higher Institutes | Cairo, Egypt</div>
+        </div>
+        <div class="education-date">2012 - 2016</div>
       </div>
       <ul class="certs">
         <li>Lean Six Sigma Yellow Belt, MoreSteam University, 2020</li>
